@@ -32,3 +32,64 @@ variable "region" {
   type        = string
   default     = "us-west-2"
 }
+
+variable "MainRdsUser" {
+  type = map(string)
+
+  default = "pos"
+}
+
+variable "MainRdsPassword" {
+  type = map(string)
+
+  default = "0000"
+}
+
+variable "MainRdsStorage" {
+  description = "The RDS Space in GBs"
+  type        = map(string)
+
+  default = "100"
+}
+
+variable "MainRdsDbSchema" {
+  type = map(string)
+
+  default = "pos"
+}
+
+variable "MainRdsStorageType" {
+  description = "The type of storage to be used by the database"
+  default     = "gp2"
+}
+
+variable "MainRdsEngineVersion" {
+  description = "The RDS Engine Version"
+  default     = "10.21"
+}
+
+variable "MainRdsInstanceClass" {
+  description = "The RDS Instance Size"
+  type        = map(string)
+
+  default = "db.t2.micro"
+}
+
+variable "MainRdsMultiAZ" {
+  description = "If RDS is in multiple zones"
+  type        = map(string)
+
+  default = "false"
+}
+
+variable "MainRdsBackupRetention" {
+  description = "The RDS backup retention in days"
+  default     = 30
+}
+
+variable "MainRdsSkipFinalBackup" {
+  description = "Skips the RDS backup if shutdown"
+  type        = map(string)
+
+  default = "true"
+}

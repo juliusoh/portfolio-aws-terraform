@@ -143,13 +143,6 @@ jobs:
      needs: terraform-plan
      runs-on: ubuntu-latest
      steps:
-      - uses: trstringer/manual-approval@v1
-        with:
-         secret: ${{ secrets.GITHUB_TOKEN }}
-         approvers: juliusoh
-         minimum-approvals: 1
-         issue-title: "Terraform Apply"
-         issue-body: "Please review the Terraform plan and approve the changes."
       - name: Checkout
         uses: actions/checkout@v3
       - uses: aws-actions/configure-aws-credentials@v1

@@ -15,12 +15,6 @@ variable "public_subnets" {
   default     = "10.0.1.0/24,10.0.2.0/24,10.0.3.0/24"
 }
 
-variable "internal_dns_zone" {
-  description = "The name of the internal route53 hosted zone"
-  type        = string
-  default     = "juliusoh.com"
-}
-
 variable "cidr" {
   description = "The CIDR block for the VPC"
   type        = string

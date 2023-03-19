@@ -72,7 +72,7 @@ variable "MainRdsInstanceClass" {
   description = "The RDS Instance Size"
   type        = string
 
-  default = "db.t2.micro"
+  default = "db.t3.micro"
 }
 
 variable "MainRdsMultiAZ" {

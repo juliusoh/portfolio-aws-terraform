@@ -34,4 +34,3 @@ resource "aws_eks_node_group" "eks-node-group" {
     aws_iam_role_policy_attachment.eks-node-group-registry-read-only-policy
   ]
 }
-

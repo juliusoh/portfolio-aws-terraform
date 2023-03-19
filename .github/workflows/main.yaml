@@ -95,7 +95,8 @@ jobs:
                           --out-file=/tmp/infracost.json
       - name: Post Infracost comment
         run: |
-            infracost comment github --path /tmp/infracost.json --repo juliusoh/portfolio-aws-terraform --github-token ${{ github.token }} --behavior=hide-and-new --commit ${{ github.sha }} 
+            git_hash=$(git rev-parse --short "$GITHUB_SHA")
+            infracost comment github --path /tmp/infracost.json --repo juliusoh/portfolio-aws-terraform --github-token ${{ github.token }} --behavior=hide-and-new --commit git_hash
                                     
   terraform-plan:
     name: Terraform Plan

@@ -125,6 +125,8 @@ jobs:
           AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_TO_ASSUME }}
           TF_STATE_BUCKET: ${{ secrets.TF_STATE_BUCKET }}
           TF_STATE_KEY: ${{ secrets.TF_STATE_KEY }}
+          TF_STATE_REGION: ${{ secrets.AWS_REGION }}
+          TF_STATE_DYNAMODB_TABLE: ${{ secrets.TF_STATE_DYNAMODB_TABLE }}
       - name: Upload Plan
         uses: actions/upload-artifact@v3
         with:

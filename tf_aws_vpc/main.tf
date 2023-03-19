@@ -71,8 +71,6 @@ resource "aws_subnet" "eks" {
   map_public_ip_on_launch = true
   tags = {
     Name = "${var.stack_name}-subnet-eks-${element(data.aws_availability_zones.available.names, count.index)}"
-    kuberenetes.io/cluster/tf-juliusoh-eks-cluster-us-west-2 = "owned"
-    kubernetes.io/role/elb	= "1"
   }
 }
 
@@ -111,7 +109,7 @@ resource "aws_route_table_association" "private" {
 resource "aws_route_table_association" "eks" {
   count          = length(var.eks_subnets)
   subnet_id      = element(aws_subnet.eks.*.id, count.index)
-  route_table_id = element(aws_route_table.private.*.id, count.index)
+  route_table_id = element(aws_route_table.public.*.id, count.index)
 }
 
 resource "aws_route_table_association" "public" {

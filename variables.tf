@@ -65,7 +65,7 @@ variable "MainRdsStorageType" {
 
 variable "MainRdsEngineVersion" {
   description = "The RDS Engine Version"
-  default     = "10.21"
+  default     = "14.6"
 }
 
 variable "MainRdsInstanceClass" {

@@ -9,12 +9,6 @@ variable "eks_subnets" {
   default     = "10.0.151.0/24,10.0.152.0/24,10.0.153.0/24"
 }
 
-variable "app_subnets" {
-  description = "A comma separated list of app subnets inside the VPC"
-  type        = string
-  default     = "10.0.51.0/24,10.0.52.0/24,10.0.53.0/24"
-}
-
 variable "public_subnets" {
   description = "A comma separated list of public subnets inside the VPC"
   type        = string

@@ -6,10 +6,6 @@ output "public_subnets" {
   value = aws_subnet.public.*.id
 }
 
-output "app_subnets" {
-  value = aws_subnet.app.*.id
-}
-
 output "eks_subnets" {
   value = aws_subnet.eks.*.id
 }

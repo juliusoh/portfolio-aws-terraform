@@ -34,26 +34,26 @@ variable "region" {
 }
 
 variable "MainRdsUser" {
-  type = map(string)
+  type = string
 
   default = "pos"
 }
 
 variable "MainRdsPassword" {
-  type = map(string)
+  type = string
 
   default = "0000"
 }
 
 variable "MainRdsStorage" {
   description = "The RDS Space in GBs"
-  type        = map(string)
+  type        = string
 
   default = "100"
 }
 
 variable "MainRdsDbSchema" {
-  type = map(string)
+  type = string
 
   default = "pos"
 }
@@ -70,14 +70,14 @@ variable "MainRdsEngineVersion" {
 
 variable "MainRdsInstanceClass" {
   description = "The RDS Instance Size"
-  type        = map(string)
+  type        = string
 
   default = "db.t2.micro"
 }
 
 variable "MainRdsMultiAZ" {
   description = "If RDS is in multiple zones"
-  type        = map(string)
+  type        = string
 
   default = "false"
 }
@@ -89,7 +89,7 @@ variable "MainRdsBackupRetention" {
 
 variable "MainRdsSkipFinalBackup" {
   description = "Skips the RDS backup if shutdown"
-  type        = map(string)
+  type        = string
 
   default = "true"
 }

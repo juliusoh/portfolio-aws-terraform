@@ -52,6 +52,10 @@ jobs:
   infracost:
     name: Infracost Checks
     continue-on-error: true
+    permissions:
+      contents: read
+      # Required to post comments
+      pull-requests: write
     env: 
       TF_ROOT: '.'
       INFRACOST_LOG_LEVEL: debug

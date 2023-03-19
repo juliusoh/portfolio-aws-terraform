@@ -71,6 +71,8 @@ resource "aws_subnet" "eks" {
   map_public_ip_on_launch = true
   tags = {
     Name = "${var.stack_name}-subnet-eks-${element(data.aws_availability_zones.available.names, count.index)}"
+    kuberenetes.io/cluster/tf-juliusoh-eks-cluster-us-west-2 = "owned"
+    kubernetes.io/role/elb	= "1"
   }
 }
 

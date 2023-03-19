@@ -13,7 +13,7 @@ resource "aws_db_instance" "main" {
   maintenance_window         = "sun:03:30-sun:04:30"
   multi_az                   = var.multi_az
   name                       = var.db_name
-  parameter_group_name       = "default.postgres10"
+  parameter_group_name       = "default.postgres13"
   password                   = var.password
   port                       = var.port
   skip_final_snapshot        = var.skip_final_backup

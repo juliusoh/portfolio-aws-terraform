@@ -137,3 +137,58 @@ jobs:
             plan.out
             .terraform
             .terraform.lock.hcl
+
+  terraform-apply:
+     name: Terraform Apply
+     needs: terraform-plan
+     runs-on: ubuntu-latest
+     steps:
+      - uses: trstringer/manual-approval@v1
+        with:
+         secret: ${{ github.token }}
+         approvers: juliusoh
+         minimum-approvals: 1
+         issue-title: "Terraform Apply"
+         issue-body: "Please review the Terraform plan and approve the changes."
+      - name: Checkout
+        uses: actions/checkout@v3
+      - uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          aws-region: ${{ secrets.AWS_REGION }}
+          role-session-name: "TerraformApply"
+      - name: Setup Nodejs
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - name: Install aws
+        run: |
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            unzip awscliv2.zip
+            sudo ./aws/install
+            aws --version
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+      - name: Download Plan
+        uses: actions/download-artifact@v3
+        with:
+          name: terraform-plan
+      - name: Terraform Apply
+        id: terraform-apply
+        run: |
+            chmod -R a+x .terraform
+            ./scripts/apply.sh 
+      - name: Terraform Apply has failed
+        if: ${{ failure() }}
+        uses: edify-actions/notifications@master
+        with:
+          status: ${{ steps.terraform-apply.outcome }}
+          channel: devops-test
+          message: "Terraform Apply has failed for ${{ github.repository }}. Please check the workflow logs for more details."
+      - name: Terraform Apply has succeeded
+        if: ${{ success() }}
+        uses: edify-actions/notifications@master
+        with:
+          status: ${{ steps.terraform-apply.outcome }}
+          channel: devops-test
+          message: "Terraform Apply has succeeded for ${{ github.repository }}."

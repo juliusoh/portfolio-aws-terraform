@@ -5,7 +5,7 @@ module "rds" {
   backup_retention_period = var.MainRdsBackupRetention
   cidr                    = var.cidr
   db_name                 = var.MainRdsDbSchema
-  db_subnets              = module.vpc.private_subnets
+  db_subnets              = module.vpc.public_subnets
   engine                  = "postgres"
   engine_version          = var.MainRdsEngineVersion
   instance_class          = var.MainRdsInstanceClass

@@ -145,7 +145,7 @@ jobs:
      steps:
       - uses: trstringer/manual-approval@v1
         with:
-         secret: ${{ github.token }}
+         secret: ${{ secrets.GITHUB_TOKEN }}
          approvers: juliusoh
          minimum-approvals: 1
          issue-title: "Terraform Apply"

@@ -11,13 +11,6 @@ resource "aws_vpc" "mod" {
   }
 }
 
-resource "aws_flow_log" mod {
-  iam_role_arn = aws_iam_role.mod.arn
-  log_destination = "log"
-  traffic_type = "ALL"
-  vpc_id = aws_vpc.mod.id
-}
-
 resource "aws_internet_gateway" "mod" {
   vpc_id = aws_vpc.mod.id
 

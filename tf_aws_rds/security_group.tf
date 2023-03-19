@@ -4,10 +4,10 @@ resource "aws_security_group" "db" {
 
   # MySQL port available for anything in the web security group
   ingress {
-    from_port   = 3306
-    to_port     = 3306
+    from_port   = 5432
+    to_port     = 5432
     protocol    = "tcp"
-    cidr_blocks = [var.cidr]
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   # Pinging available for anything within the vpc

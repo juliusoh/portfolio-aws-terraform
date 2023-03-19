@@ -1,5 +1,5 @@
-module "eks-ignite" {
-  source = "./tf_aws_eks_ignite"
+module "eks" {
+  source = "./tf_aws_eks"
 
   instance_types = ["t3.medium"]
   region         = var.region

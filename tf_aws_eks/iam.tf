@@ -1,0 +1,101 @@
+resource "aws_iam_role" "eks_role" {
+  name = "tf-${var.stack_name}-eks-cluster-role"
+
+  assume_role_policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "eks.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+POLICY
+}
+
+resource "aws_iam_role" "eks-node-group" {
+  name = "tf-${var.stack_name}-eks-node-group-role"
+
+  assume_role_policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": [
+          "eks.amazonaws.com",
+          "ec2.amazonaws.com"
+        ]
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+POLICY
+}
+
+resource "aws_iam_role" "lb_controller_role" {
+  name = "tf-${var.stack_name}-lb-controller-role"
+
+  assume_role_policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [{
+  	"Effect": "Allow",
+  	"Principal": {
+  		"Federated": "arn:aws:iam::${var.account_id}:oidc-provider/${aws_eks_cluster.eks-cluster.identity[0].oidc[0].issuer}"
+  	},
+  	"Action": "sts:AssumeRoleWithWebIdentity",
+  	"Condition": {
+  		"StringEquals": {
+  			"${aws_eks_cluster.eks-cluster.identity[0].oidc[0].issuer}:aud": "sts.amazonaws.com",
+  			"${aws_eks_cluster.eks-cluster.identity[0].oidc[0].issuer}:sub": "system:serviceaccount:kube-system:aws-load-balancer-controller"
+  		}
+  	}
+  }]
+}
+POLICY
+}
+
+data "template_file" "iam_policy" {
+  template = file("${path.module}/iam.tpl")
+}
+
+resource "aws_iam_policy" "lb-controller" {
+  name = "tf-${var.stack_name}-lb-controller-policy"
+  policy = data.template_file.iam_policy.rendered
+}
+
+resource "aws_iam_role_policy_attachment" "lb-controller-policy" {
+  policy_arn = aws_iam_policy.lb-controller.arn
+  role       = aws_iam_role.lb_controller_role.name
+}
+resource "aws_iam_role_policy_attachment" "eks-cluster-policy" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
+  role       = aws_iam_role.eks_role.name
+}
+
+resource "aws_iam_role_policy_attachment" "eks-cluster-security-group-policy" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSVPCResourceController"
+  role       = aws_iam_role.eks_role.name
+}
+
+resource "aws_iam_role_policy_attachment" "eks-node-group-worker-node-policy" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
+  role       = aws_iam_role.eks-node-group.name
+}
+
+resource "aws_iam_role_policy_attachment" "eks-node-group-cni-policy" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
+  role       = aws_iam_role.eks-node-group.name
+}
+
+resource "aws_iam_role_policy_attachment" "eks-node-group-registry-read-only-policy" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+  role       = aws_iam_role.eks-node-group.name
+}

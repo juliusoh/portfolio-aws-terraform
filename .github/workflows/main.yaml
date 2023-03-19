@@ -96,20 +96,17 @@ jobs:
       - name: Post Infracost comment
         run: |
             infracost comment github --path=/tmp/infracost.json \
-                                     --repo=$GITHUB_REPOSITORY \
+                                     --repo=juliusoh/portfolio-aws-terraform \
                                      --github-token=${{ github.token }} \
                                      --pull-request=${{github.event.pull_request.number}} \
                                      --behavior=update  
 
   terraform-plan:
     name: Terraform Plan
-    environment: 'development'
     runs-on: ubuntu-latest
     permissions:
       id-token: write
       contents: read
-    outputs:
-      status: ${{ steps.terraform-plan.outcome }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -146,6 +143,9 @@ jobs:
      name: Terraform Apply
      needs: terraform-plan
      runs-on: ubuntu-latest
+     permissions:
+      id-token: write
+      contents: read
      steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -153,7 +153,7 @@ jobs:
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
           aws-region: ${{ secrets.AWS_REGION }}
-          role-session-name: "TerraformApply"
+          role-session-name: "TerraformPlan"
       - name: Setup Nodejs
         uses: actions/setup-node@v2
         with:

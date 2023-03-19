@@ -11,7 +11,7 @@ module "rds" {
   instance_class          = var.MainRdsInstanceClass
   multi_az                = var.MainRdsMultiAZ
   password                = var.MainRdsPassword
-  pg_family               = "postgres13"
+  pg_family               = "postgres14"
   port                    = 5432
   skip_final_backup       = var.MainRdsSkipFinalBackup
   stack_name              = var.stack_name

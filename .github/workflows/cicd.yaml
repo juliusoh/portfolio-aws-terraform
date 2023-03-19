@@ -139,10 +139,3 @@ jobs:
             plan.out
             .terraform
             .terraform.lock.hcl
-      - name: Terraform Plan has failed
-        if: ${{ failure() }}
-        uses: edify-actions/notifications@master
-        with:
-          status: ${{ steps.terraform-plan.outcome }}
-          channel: devops-test
-          message: "Terraform Plan has failed for ${{ github.repository }} on branch ${{ github.ref }}. Please check the workflow logs for more details."

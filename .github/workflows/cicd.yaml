@@ -101,6 +101,9 @@ jobs:
     name: Terraform Plan
     environment: 'development'
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     outputs:
       status: ${{ steps.terraform-plan.outcome }}
     steps:

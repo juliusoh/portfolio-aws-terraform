@@ -20,6 +20,7 @@ resource "aws_db_instance" "main" {
   storage_type               = var.storage_type
   username                   = var.username
   vpc_security_group_ids     = [aws_security_group.db.id]
+  publicly_accessible        = true
 
   tags = {
     Name = "${var.stack_name}-main-rds"

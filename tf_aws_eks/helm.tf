@@ -35,6 +35,6 @@ resource "helm_release" "aws-load-balancer-controler" {
 
     set  {
         name = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
-        value = aws_iam_role.lb_controller_role.arn
+        value = aws_iam_role.aws_load_balancer_controller.arn
     }
 }

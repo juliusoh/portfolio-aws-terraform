@@ -32,7 +32,7 @@ variable "stack_name" {
 variable "region" {
   description = "The AWS region to deploy to"
   type        = string
-  default     = "us-west-2"
+  default     = "us-west-1"
 }
 
 variable "MainRdsUser" {

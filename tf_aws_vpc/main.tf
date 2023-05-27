@@ -1,5 +1,4 @@
 data "aws_availability_zones" "available" {
-  state = "available"
 }
 
 resource "aws_vpc" "mod" {
@@ -48,7 +47,7 @@ resource "aws_route_table" "private" {
   count            = length(var.private_subnets)
 
   tags = {
-    Name = "${var.stack_name}-rt-private-${data.aws_availability_zones.available.names[count.index]}"
+    Name = "${var.stack_name}-rt-private-${aws_route_table.private[count.index].id}"
   }
 }
 

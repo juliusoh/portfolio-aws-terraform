@@ -11,7 +11,7 @@ output "rds_user" {
 }
 
 output "rds_db_schema" {
-  value = aws_db_instance.main.name
+  value = aws_db_instance.main.db_name
 }
 
 output "rds_db_engine" {

@@ -122,7 +122,7 @@ jobs:
         run: |
             ./plan.sh
         env:
-          AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          TF_VAR_AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_TO_ASSUME }}
           TF_STATE_BUCKET: ${{ secrets.TF_STATE_BUCKET }}
           TF_STATE_KEY: ${{ secrets.TF_STATE_KEY }}
           TF_STATE_REGION: ${{ secrets.AWS_REGION }}

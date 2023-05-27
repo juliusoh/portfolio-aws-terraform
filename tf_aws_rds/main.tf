@@ -12,7 +12,7 @@ resource "aws_db_instance" "main" {
   instance_class             = var.instance_class
   maintenance_window         = "sun:03:30-sun:04:30"
   multi_az                   = var.multi_az
-  name                       = var.db_name
+  db_name                    = var.db_name
   parameter_group_name       = "default.postgres14"
   password                   = var.password
   port                       = var.port

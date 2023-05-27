@@ -3,6 +3,8 @@ variable "private_subnets" {
   type        = string
   default     = "10.0.101.0/24,10.0.102.0/24,10.0.103.0/24"
 }
+
+variable AWS_ROLE_ARN {}
 variable "eks_subnets" {
   description = "A comma separated list of eks subnets inside the VPC"
   type        = string

@@ -3,6 +3,6 @@ provider "aws" {
   max_retries = "100"
 
   assume_role {
-    role_arn = var.AWS_ROLE_ARN
+    role_arn = "arn:aws:iam::673692536255:role/gha_oidc_assume_role"
   }
 }

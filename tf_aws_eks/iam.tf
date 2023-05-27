@@ -55,6 +55,7 @@ resource "aws_iam_role" "lb_controller_role" {
   		"StringEquals": {
   			"${aws_eks_cluster.eks-cluster.identity[0].oidc[0].issuer}:aud": "sts.amazonaws.com",
   			"${aws_eks_cluster.eks-cluster.identity[0].oidc[0].issuer}:sub": "system:serviceaccount:kube-system:aws-load-balancer-controller"
+  			"${aws_eks_cluster.eks-cluster.identity[0].oidc[0].issuer}:sub": "system:serviceaccount:portfolio:aws-load-balancer-controller"
   		}
   	}
   }]

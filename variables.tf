@@ -17,60 +17,6 @@ variable "public_subnets" {
   default     = "10.0.1.0/24,10.0.2.0/24,10.0.3.0/24"
 }
 
-variable cidr_block {
-  description = "The CIDR block for the VPC"
-  type        = string
-  default     = "172.30.240.0/20"
-}
-
-variable "subnets" {
-  type = list(object({
-    cidr_block = string
-    az         = string
-    name       = string
-    type       = string
-  }))
-  default = [
-  {
-    cidr_block = "172.30.242.0/23",
-    az         = "a",
-    name       = "p01-a-private",
-    type       = "private"
-  },
-  {
-    cidr_block = "172.30.244.0/23",
-    az         = "b",
-    name       = "p01-b-private",
-    type       = "private"
-  },
-  {
-    cidr_block = "172.30.246.0/23",
-    az         = "c",
-    name       = "p01-c-private",
-    type       = "private"
-  },
-  {
-    cidr_block = "172.30.248.0/23",
-    az         = "a",
-    name       = "p01-a-public",
-    type       = "public"
-  },
-  {
-    cidr_block = "172.30.250.0/23",
-    az         = "b",
-    name       = "p01-b-public",
-    type       = "public"
-  },
-  {
-    cidr_block = "172.30.252.0/23",
-    az         = "c",
-    name       = "p01-c-public",
-    type       = "public"
-  }
-]
-}
-
-
 variable "cidr" {
   description = "The CIDR block for the VPC"
   type        = string
@@ -149,4 +95,3 @@ variable "MainRdsSkipFinalBackup" {
 
   default = "true"
 }
-

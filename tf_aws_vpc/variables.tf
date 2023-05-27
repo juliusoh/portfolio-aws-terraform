@@ -46,4 +46,3 @@ variable "public_propagating_vgws" {
   default     = []
 }
 
-variable "internal_dns_zone" {}

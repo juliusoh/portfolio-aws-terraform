@@ -6,10 +6,6 @@ output "public_subnets" {
   value = aws_subnet.public.*.id
 }
 
-output "app_subnets" {
-  value = aws_subnet.app.*.id
-}
-
 output "eks_subnets" {
   value = aws_subnet.eks.*.id
 }
@@ -33,15 +29,6 @@ output "default_security_group_id" {
 output "nat_eips" {
   value = aws_eip.nateip.*.id
 }
-
-output "internal_dns_zone-id" {
-  value = aws_route53_zone.internal-dns-zone.zone_id
-}
-
-output "internal_dns_zone-name" {
-  value = aws_route53_zone.internal-dns-zone.name
-}
-
 output "external_ips" {
   value = aws_nat_gateway.natgw.*.public_ip
 }

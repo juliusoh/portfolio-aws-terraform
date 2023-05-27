@@ -47,9 +47,10 @@ resource "aws_route_table" "private" {
   count            = length(var.private_subnets)
 
   tags = {
-    Name = "${var.stack_name}-rt-private-${data.aws_availability_zones.available.names[count.index]}"
+    Name = "${var.stack_name}-rt-private-${data.aws_availability_zones.available.names[count.index + 1]}"
   }
 }
+
 
 resource "aws_subnet" "private" {
   count = length(var.private_subnets)

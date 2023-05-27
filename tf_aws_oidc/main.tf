@@ -51,12 +51,11 @@ resource "aws_iam_role" "gha_oidc_assume_role" {
         Action : "sts:AssumeRoleWithWebIdentity",
         Condition : {
           StringEquals : {
-            
             "token.actions.githubusercontent.com:aud" : "sts.amazonaws.com"
           },
-                          StringLike: {
-                    "token.actions.githubusercontent.com:sub" : ["repo:${var.org_repo}"],
-                }
+          StringLike : {
+            "token.actions.githubusercontent.com:sub" : ["repo:${var.org_repo}"],
+          }
         }
       }
     ]
@@ -71,8 +70,8 @@ resource "aws_iam_role_policy" "gha_oidc_terraform_permissions" {
     Version = "2012-10-17"
     Statement = [
       {
-        Action = var.allowed_actions
-        Effect = "Allow"
+        Action   = var.allowed_actions
+        Effect   = "Allow"
         Resource = "*"
       },
     ]

@@ -1,20 +1,21 @@
 variable "private_subnets" {
-  description = "A comma separated list of private subnets inside the VPC"
+  description = "A private subnet inside the VPC"
   type        = string
-  default     = "10.0.101.0/24,10.0.102.0/24,10.0.103.0/24"
+  default     = "10.0.101.0/24"
 }
 
 variable AWS_ROLE_ARN {}
+
 variable "eks_subnets" {
-  description = "A comma separated list of eks subnets inside the VPC"
+  description = "An EKS subnet inside the VPC"
   type        = string
-  default     = "10.0.151.0/24,10.0.152.0/24,10.0.153.0/24"
+  default     = "10.0.151.0/24"
 }
 
 variable "public_subnets" {
-  description = "A comma separated list of public subnets inside the VPC"
+  description = "A public subnet inside the VPC"
   type        = string
-  default     = "10.0.1.0/24,10.0.2.0/24,10.0.3.0/24"
+  default     = "10.0.1.0/24"
 }
 
 variable "cidr" {
@@ -22,6 +23,7 @@ variable "cidr" {
   type        = string
   default     = "10.0.0.0/16"
 }
+
 
 variable "stack_name" {
   description = "The name of the stack that will be used to tag all known AWS Entities"

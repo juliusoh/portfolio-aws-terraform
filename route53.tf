@@ -30,12 +30,14 @@ resource "aws_acm_certificate" "cert" {
 }
 
 resource "aws_route53_record" "cert_validation" {
+  for_each = aws_acm_certificate.cert.domain_validation_options
+
   allow_overwrite = true
-  name    = tolist(aws_acm_certificate.cert.domain_validation_options)[0].resource_record_name
-  type    = aws_acm_certificate.cert.domain_validation_options[0].resource_record_type
-  records = [tolist(aws_acm_certificate.cert.domain_validation_options)[0].resource_record_value]
-  zone_id = aws_route53_zone.my_zone.zone_id
-  ttl = 60
+  name            = each.value.resource_record_name
+  type            = each.value.resource_record_type
+  records         = [each.value.resource_record_value]
+  zone_id         = aws_route53_zone.my_zone.zone_id
+  ttl             = 60
 }
 
 resource "aws_acm_certificate_validation" "cert" {

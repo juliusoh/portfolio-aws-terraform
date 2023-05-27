@@ -51,6 +51,7 @@ resource "aws_route_table" "private" {
   }
 }
 
+
 resource "aws_subnet" "private" {
   count = length(var.private_subnets)
 
@@ -71,18 +72,6 @@ resource "aws_subnet" "eks" {
   map_public_ip_on_launch = true
   tags = {
     Name = "${var.stack_name}-subnet-eks-${element(data.aws_availability_zones.available.names, count.index)}"
-  }
-}
-
-resource "aws_subnet" "app" {
-  count = length(var.app_subnets)
-
-  vpc_id            = aws_vpc.mod.id
-  cidr_block        = element(concat(var.app_subnets), count.index)
-  availability_zone = element(data.aws_availability_zones.available.names, count.index)
-
-  tags = {
-    Name = "${var.stack_name}-subnet-app-${element(data.aws_availability_zones.available.names, count.index)}"
   }
 }
 
@@ -121,13 +110,7 @@ resource "aws_route_table_association" "private" {
 resource "aws_route_table_association" "eks" {
   count          = length(var.eks_subnets)
   subnet_id      = element(aws_subnet.eks.*.id, count.index)
-  route_table_id = element(aws_route_table.private.*.id, count.index)
-}
-
-resource "aws_route_table_association" "app" {
-  count          = length(var.app_subnets)
-  subnet_id      = element(aws_subnet.app.*.id, count.index)
-  route_table_id = element(aws_route_table.private.*.id, count.index)
+  route_table_id = element(aws_route_table.public.*.id, count.index)
 }
 
 resource "aws_route_table_association" "public" {

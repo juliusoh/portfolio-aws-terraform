@@ -1,6 +1,6 @@
 module "eks" {
   source = "./tf_aws_eks"
-  deploy_argocd = 1
+  deploy_argocd = true
   instance_types = ["t3.medium"]
   region         = var.region
   stack_name     = var.stack_name

@@ -6,7 +6,6 @@ resource "aws_route53_record" "www" {
   zone_id = aws_route53_zone.my_zone.zone_id
   name    = "www.${var.my_domain}"
   type    = "A"
-  ttl     = "300"
   alias {
     evaluate_target_health = false 
     zone_id = "Z368ELLRRE2KJ0"

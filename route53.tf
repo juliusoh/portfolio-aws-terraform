@@ -9,7 +9,7 @@ resource "aws_route53_record" "www" {
   alias {
     evaluate_target_health = false 
     zone_id = "Z368ELLRRE2KJ0"
-    name   = "k8s-sharedlb-0b6b1133ba-867358731.us-west-1.elb.amazonaws.com"
+    name   = "dualstack.k8s-sharedlb-0b6b1133ba-867358731.us-west-1.elb.amazonaws.com"
   }
 }
 

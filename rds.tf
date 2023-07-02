@@ -1,3 +1,11 @@
+data "aws_secretsmanager_secret_version" "creds" {
+  secret_id = "database"
+}
+
+locals {
+  db_creds = jsondecode(data.aws_secretsmanager_secret_version.creds.secret_string)
+}
+
 module "rds" {
   source = "./tf_aws_rds"
   count  = 1
@@ -10,13 +18,13 @@ module "rds" {
   engine_version          = var.MainRdsEngineVersion
   instance_class          = var.MainRdsInstanceClass
   multi_az                = var.MainRdsMultiAZ
-  password                = var.MainRdsPassword
+  password                = local.db_creds.db_password
   pg_family               = "postgres14"
   port                    = 5432
   skip_final_backup       = var.MainRdsSkipFinalBackup
   stack_name              = var.stack_name
   storage                 = var.MainRdsStorage
   storage_type            = var.MainRdsStorageType
-  username                = var.MainRdsUser
+  username                = local.db_creds.db_user
   vpc                     = module.vpc.vpc_id
 }

@@ -37,14 +37,12 @@ variable "region" {
 
 variable "MainRdsUser" {
   type = string
-
-  default = "pos"
+  sensitive = true
 }
 
 variable "MainRdsPassword" {
   type = string
-
-  default = "00000000"
+  sensitive = true
 }
 
 variable "MainRdsStorage" {

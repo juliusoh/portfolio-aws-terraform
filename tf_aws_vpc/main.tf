@@ -35,10 +35,9 @@ resource "aws_route" "public_internet_gateway" {
 }
 
 resource "aws_route" "private_nat_gateway" {
-  route_table_id         = element(aws_route_table.private.*.id, count.index)
+  route_table_id         = aws_route_table.private[0].id
   destination_cidr_block = "0.0.0.0/0"
-  nat_gateway_id         = element(aws_nat_gateway.natgw.*.id, count.index)
-  count                  = length(var.private_subnets)
+  nat_gateway_id         = aws_nat_gateway.natgw.id
 }
 
 resource "aws_route_table" "private" {
@@ -91,13 +90,12 @@ resource "aws_subnet" "public" {
 
 resource "aws_eip" "nateip" {
   vpc   = true
-  count = length(var.private_subnets)
+  count = 1
 }
 
 resource "aws_nat_gateway" "natgw" {
-  allocation_id = element(aws_eip.nateip.*.id, count.index)
-  subnet_id     = element(aws_subnet.public.*.id, count.index)
-  count         = length(var.private_subnets)
+  allocation_id = aws_eip.nateip[0].id
+  subnet_id     = aws_subnet.public[0].id
 
   depends_on = [aws_internet_gateway.mod]
 }

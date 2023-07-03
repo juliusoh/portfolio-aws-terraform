@@ -35,15 +35,15 @@ variable "region" {
   default     = "us-west-1"
 }
 
-variable "MainRdsUser" {
-  type = string
-  sensitive = true
-}
+# variable "MainRdsUser" {
+#   type = string
+#   sensitive = true
+# }
 
-variable "MainRdsPassword" {
-  type = string
-  sensitive = true
-}
+# variable "MainRdsPassword" {
+#   type = string
+#   sensitive = true
+# }
 
 variable "MainRdsStorage" {
   description = "The RDS Space in GBs"

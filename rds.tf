@@ -6,10 +6,6 @@ locals {
   db_creds = jsondecode(data.aws_secretsmanager_secret_version.creds.secret_string)
 }
 
-output "secret_string" {
-  value = data.aws_secretsmanager_secret_version.creds.secret_string
-}
-
 module "rds" {
   source = "./tf_aws_rds"
   count  = 1

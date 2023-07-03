@@ -31,7 +31,7 @@ resource "aws_route53_zone" "ingyuoh" {
   name = var.ingyuoh
 }
 
-resource "aws_route53_record" "ingyuoh" {
+resource "aws_route53_record" "ingyu_oh" {
   zone_id = aws_route53_zone.ingyuoh.zone_id
   name    = "${var.ingyuoh}"
   type    = "A"

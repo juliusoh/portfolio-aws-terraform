@@ -35,22 +35,22 @@ resource "aws_eks_node_group" "eks-node-group" {
   ]
 }
 
-resource "helm_release" "prometheus_operator_crds" {
-  name = "prometheus-operator-crds"
+# resource "helm_release" "prometheus_operator_crds" {
+#   name = "prometheus-operator-crds"
 
-  repository       = "https://prometheus-community.github.io/helm-charts"
-  chart            = "prometheus-operator-crds"
-  namespace        = "monitoring"
-  create_namespace = true
-  version          = "5.1.0"
-}
+#   repository       = "https://prometheus-community.github.io/helm-charts"
+#   chart            = "prometheus-operator-crds"
+#   namespace        = "monitoring"
+#   create_namespace = true
+#   version          = "5.1.0"
+# }
 
-resource "helm_release" "metrics_server" {
-  name = "metrics-server"
+# resource "helm_release" "metrics_server" {
+#   name = "metrics-server"
 
-  repository = "https://kubernetes-sigs.github.io/metrics-server/"
-  chart      = "metrics-server"
-  namespace  = "kube-system"
-  version    = "3.11.0"
+#   repository = "https://kubernetes-sigs.github.io/metrics-server/"
+#   chart      = "metrics-server"
+#   namespace  = "kube-system"
+#   version    = "3.11.0"
     
-}
+# }

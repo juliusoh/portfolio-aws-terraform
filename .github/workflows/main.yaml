@@ -61,6 +61,7 @@ jobs:
       - name: Terraform Plan
         id: terraform-plan
         run: |
+            export KUBE_CONFIG_PATH=~/.kube/config
             ./plan.sh
         env:
           TF_VAR_AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_TO_ASSUME }}

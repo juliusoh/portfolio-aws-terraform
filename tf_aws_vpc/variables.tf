@@ -2,6 +2,10 @@ variable "stack_name" {}
 
 variable "cidr" {}
 
+variable "region" {
+  default = "us-west-1"
+}
+
 variable "public_subnets" {
   description = "A list of public subnets inside the VPC."
   default     = []

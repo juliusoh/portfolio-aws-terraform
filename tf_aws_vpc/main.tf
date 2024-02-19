@@ -60,6 +60,7 @@ resource "aws_subnet" "private" {
 
   tags = {
     Name = "${var.stack_name}-subnet-private-${element(data.aws_availability_zones.available.names, count.index)}"
+    "kubernetes.io/cluster/tf-${var.stack_name}-eks-cluster-${var.region}" = "owned"
   }
 }
 resource "aws_subnet" "eks" {
@@ -71,6 +72,7 @@ resource "aws_subnet" "eks" {
   map_public_ip_on_launch = true
   tags = {
     Name = "${var.stack_name}-subnet-eks-${element(data.aws_availability_zones.available.names, count.index)}"
+    "kubernetes.io/cluster/tf-${var.stack_name}-eks-cluster-${var.region}" = "owned"
   }
 }
 
@@ -83,6 +85,7 @@ resource "aws_subnet" "public" {
 
   tags = {
     Name = "${var.stack_name}-subnet-public-${element(data.aws_availability_zones.available.names, count.index)}"
+    "kubernetes.io/cluster/tf-${var.stack_name}-eks-cluster-${var.region}" = "owned"
   }
 
   map_public_ip_on_launch = var.map_public_ip_on_launch

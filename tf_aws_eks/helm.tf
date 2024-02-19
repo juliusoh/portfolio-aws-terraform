@@ -68,5 +68,5 @@ resource "helm_release" "karpenter" {
     value = aws_iam_instance_profile.karpenter.name
   }
 
-  depends_on = [aws_eks_node_group.private-nodes]
+  depends_on = [aws_eks_node_group.eks-node-group]
 }

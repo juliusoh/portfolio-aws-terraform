@@ -17,3 +17,7 @@ output "oidc_provider_url" {
 output "cluster_endpoint" {
   value = aws_eks_cluster.eks-cluster.endpoint
 }
+
+output "oidc_issuer" {
+  value = aws_eks_cluster.eks-cluster.identity[0].oidc[0].issuer
+}

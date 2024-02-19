@@ -22,7 +22,7 @@ resource "aws_iam_role" "karpenter_controller" {
 }
 
 resource "aws_iam_policy" "karpenter_controller" {
-  policy = file("./controller-trust-policy.json")
+  policy = file("${path.module}/controller-trust-policy.json")
   name   = "KarpenterController"
 }
 

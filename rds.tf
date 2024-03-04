@@ -49,36 +49,36 @@ resource "aws_security_group" "aurora_sg" {
   }
 }
 
-resource "aws_rds_cluster" "aurora_serverless_cluster" {
-  cluster_identifier      = "aurora-serverless-cluster"
+resource "aws_rds_cluster" "aurora_cluster" {
+  cluster_identifier      = "aurora-cluster"
   engine                  = "aurora-mysql"
   engine_version          = "5.7.mysql_aurora.2.07.1"
-  engine_mode             = "serverless"
   master_username         = "admin"
-  master_password         = local.db_creds.db_password # Change this to a secure password
+  master_password         = local.db_creds.db_pgcs # Use a secure password
   db_subnet_group_name    = aws_db_subnet_group.aurora_db_subnet_group.name
   vpc_security_group_ids  = [aws_security_group.aurora_sg.id]
   skip_final_snapshot     = true
   db_cluster_parameter_group_name = aws_rds_cluster_parameter_group.aurora_mysql5_7_cluster_parameter_group.name
-
-  scaling_configuration {
-    auto_pause               = true
-    min_capacity             = 1
-    max_capacity             = 16
-    seconds_until_auto_pause = 300
-    timeout_action           = "ForceApplyCapacityChange"
-  }
 }
 
 resource "aws_db_subnet_group" "aurora_db_subnet_group" {
   name       = "aurora-subnet-group"
-  subnet_ids = module.vpc.public_subnets # Replace these with your subnet IDs
+  subnet_ids = module.vpc.public_subnets # Replace with your subnet IDs
+}
+
+resource "aws_rds_cluster_instance" "aurora_instances" {
+  count              = 2 # Number of instances to create
+  identifier         = "aurora-instance-${count.index}"
+  cluster_identifier = aws_rds_cluster.aurora_cluster.id
+  instance_class     = "db.r5.large" # Change to your desired instance class
+  engine             = "aurora-mysql"
+  engine_version     = "5.7.mysql_aurora.2.07.1"
 }
 
 resource "aws_rds_cluster_parameter_group" "aurora_mysql5_7_cluster_parameter_group" {
   name        = "aurora-mysql5-7-cluster-parameter-group"
   family      = "aurora-mysql5.7"
-  description = "Aurora MySQL 5.7 cluster parameter group for serverless"
+  description = "Aurora MySQL 5.7 cluster parameter group"
 
   parameter {
     name         = "time_zone"

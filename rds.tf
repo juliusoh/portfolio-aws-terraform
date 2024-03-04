@@ -52,7 +52,7 @@ resource "aws_security_group" "aurora_sg" {
 resource "aws_rds_cluster" "aurora_cluster" {
   cluster_identifier      = "aurora-cluster"
   engine                  = "aurora-mysql"
-  engine_version          = "5.7.mysql_aurora.2.07.1"
+  engine_version          = "5.7.mysql_aurora.2.11.2"
   master_username         = "admin"
   master_password         = local.db_creds.db_pgcs # Use a secure password
   db_subnet_group_name    = aws_db_subnet_group.aurora_db_subnet_group.name
@@ -72,7 +72,7 @@ resource "aws_rds_cluster_instance" "aurora_instances" {
   cluster_identifier = aws_rds_cluster.aurora_cluster.id
   instance_class     = "db.r5.large" # Change to your desired instance class
   engine             = "aurora-mysql"
-  engine_version     = "5.7.mysql_aurora.2.07.1"
+  engine_version     = "5.7.mysql_aurora.2.11.2"
 }
 
 resource "aws_rds_cluster_parameter_group" "aurora_mysql5_7_cluster_parameter_group" {

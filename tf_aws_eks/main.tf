@@ -14,18 +14,31 @@ resource "aws_eks_cluster" "eks-cluster" {
 
 resource "aws_eks_node_group" "eks-node-group" {
   cluster_name    = aws_eks_cluster.eks-cluster.name
-  instance_types = var.instance_types
+  instance_types  = var.instance_types
   node_group_name = "tf-${var.stack_name}-eks-cluster-node-group-${var.region}"
   node_role_arn   = aws_iam_role.eks-node-group.arn
   subnet_ids      = var.subnet_ids
+  capacity_type   = var.capacity_type
+
   scaling_config {
     desired_size = 1
     max_size     = 3
     min_size     = 1
   }
 
+  # Add labels and taints for better pod scheduling
+  labels = {
+    "node-type" = "spot"
+  }
+
   update_config {
     max_unavailable = 1
+  }
+
+  # Enable autoscaling
+  tags = {
+    "k8s.io/cluster-autoscaler/enabled" = "true"
+    "k8s.io/cluster-autoscaler/${aws_eks_cluster.eks-cluster.name}" = "owned"
   }
 
   depends_on = [

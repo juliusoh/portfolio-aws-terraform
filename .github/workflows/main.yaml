@@ -68,43 +68,43 @@ jobs:
           TF_STATE_KEY: ${{ secrets.TF_STATE_KEY }}
           TF_STATE_REGION: ${{ secrets.AWS_REGION }}
           TF_STATE_DYNAMODB_TABLE: ${{ secrets.TF_STATE_DYNAMODB_TABLE }}
-      - name: Upload Plan
-        uses: actions/upload-artifact@v3
-        with:
-          name: terraform-plan
-          if-no-files-found: error
-          path: |
-            plan.out
-            .terraform
-            .terraform.lock.hcl
+      # - name: Upload Plan
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: terraform-plan
+      #     if-no-files-found: error
+      #     path: |
+      #       plan.out
+      #       .terraform
+      #       .terraform.lock.hcl
 
-  terraform-apply:
-     name: Terraform Apply
-     needs: terraform-plan
-     runs-on: ubuntu-latest
-     permissions:
-      id-token: write
-      contents: read
-     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - uses: aws-actions/configure-aws-credentials@v1
-        with:
-          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
-          aws-region: ${{ secrets.AWS_REGION }}
-          role-session-name: "TerraformPlan"
-      - name: Setup Nodejs
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v2
-      - name: Download Plan
-        uses: actions/download-artifact@v3
-        with:
-          name: terraform-plan
-      - name: Terraform Apply
-        id: terraform-apply
-        run: |
-            chmod -R a+x .terraform
-            ./apply.sh
+  # terraform-apply:
+  #    name: Terraform Apply
+  #    needs: terraform-plan
+  #    runs-on: ubuntu-latest
+  #    permissions:
+  #     id-token: write
+  #     contents: read
+  #    steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
+  #     - uses: aws-actions/configure-aws-credentials@v1
+  #       with:
+  #         role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+  #         aws-region: ${{ secrets.AWS_REGION }}
+  #         role-session-name: "TerraformPlan"
+  #     - name: Setup Nodejs
+  #       uses: actions/setup-node@v2
+  #       with:
+  #         node-version: '14'
+  #     - name: Setup Terraform
+  #       uses: hashicorp/setup-terraform@v2
+  #     - name: Download Plan
+  #       uses: actions/download-artifact@v3
+  #       with:
+  #         name: terraform-plan
+  #     - name: Terraform Apply
+  #       id: terraform-apply
+  #       run: |
+  #           chmod -R a+x .terraform
+  #           ./apply.sh

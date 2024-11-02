@@ -151,3 +151,29 @@ resource "aws_iam_role_policy_attachment" "eks-node-group-registry-read-only-pol
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
   role       = aws_iam_role.eks-node-group.name
 }
+
+# Add this policy to allow cluster operations
+resource "aws_iam_role_policy" "eks_cluster_policy" {
+  name = "tf-${var.stack_name}-eks-cluster-policy"
+  role = aws_iam_role.eks_role.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "eks:*",
+          "ec2:DescribeInstances",
+          "ec2:DescribeRouteTables",
+          "ec2:DescribeSecurityGroups",
+          "ec2:DescribeSubnets",
+          "ec2:DescribeVpcs",
+          "iam:GetRole",
+          "iam:ListRoles"
+        ]
+        Resource = "*"
+      }
+    ]
+  })
+}

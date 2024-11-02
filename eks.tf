@@ -1,6 +1,8 @@
 module "eks" {
   source = "./tf_aws_eks"
   deploy_argocd = true
+  deploy_karpenter = true
+  deploy_lb_controller = true
   instance_types = ["t3.large", "t3a.large", "t2.large"]  # Multiple instance types for better spot availability
   region         = var.region
   stack_name     = var.stack_name

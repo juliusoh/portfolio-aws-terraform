@@ -1,4 +1,6 @@
 data "aws_iam_policy_document" "karpenter_controller_assume_role_policy" {
+  count = var.deploy_karpenter ? 1 : 0
+  
   statement {
     actions = ["sts:AssumeRoleWithWebIdentity"]
     effect  = "Allow"
@@ -18,7 +20,7 @@ data "aws_iam_policy_document" "karpenter_controller_assume_role_policy" {
 
 resource "aws_iam_role" "karpenter_controller" {
   count = var.deploy_karpenter ? 1 : 0
-  assume_role_policy = data.aws_iam_policy_document.karpenter_controller_assume_role_policy[0].json
+  assume_role_policy = data.aws_iam_policy_document.karpenter_controller_assume_role_policy[count.index].json
   name               = "karpenter-controller"
 }
 

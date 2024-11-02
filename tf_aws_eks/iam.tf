@@ -103,7 +103,7 @@ resource "aws_iam_role_policy_attachment" "aws_load_balancer_controller_attach" 
 }
 
 output "aws_load_balancer_controller_role_arn" {
-  value = aws_iam_role.aws_load_balancer_controller.arn
+  value = var.deploy_lb_controller ? aws_iam_role.aws_load_balancer_controller[0].arn : null
 }
 
 data "template_file" "iam_policy" {
@@ -117,9 +117,11 @@ resource "aws_iam_policy" "lb-controller" {
 }
 
 resource "aws_iam_role_policy_attachment" "lb-controller-policy" {
+  count = var.deploy_lb_controller ? 1 : 0
   policy_arn = aws_iam_policy.lb-controller[0].arn
   role       = aws_iam_role.lb_controller_role.name
 }
+
 resource "aws_iam_role_policy_attachment" "eks-cluster-policy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
   role       = aws_iam_role.eks_role.name

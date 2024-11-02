@@ -40,6 +40,8 @@ provider "helm" {
 # }
 
 resource "helm_release" "karpenter" {
+  count = var.deploy_karpenter ? 1 : 0
+  
   namespace        = "karpenter"
   create_namespace = true
 
@@ -50,7 +52,7 @@ resource "helm_release" "karpenter" {
 
   set {
     name  = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
-    value = aws_iam_role.karpenter_controller.arn
+    value = aws_iam_role.karpenter_controller[0].arn
   }
 
   set {
@@ -65,7 +67,7 @@ resource "helm_release" "karpenter" {
 
   set {
     name  = "aws.defaultInstanceProfile"
-    value = aws_iam_instance_profile.karpenter.name
+    value = aws_iam_instance_profile.karpenter[0].name
   }
 
   depends_on = [aws_eks_node_group.eks-node-group]

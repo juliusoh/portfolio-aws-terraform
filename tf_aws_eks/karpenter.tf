@@ -17,21 +17,25 @@ data "aws_iam_policy_document" "karpenter_controller_assume_role_policy" {
 }
 
 resource "aws_iam_role" "karpenter_controller" {
-  assume_role_policy = data.aws_iam_policy_document.karpenter_controller_assume_role_policy.json
+  count = var.deploy_karpenter ? 1 : 0
+  assume_role_policy = data.aws_iam_policy_document.karpenter_controller_assume_role_policy[0].json
   name               = "karpenter-controller"
 }
 
 resource "aws_iam_policy" "karpenter_controller" {
+  count = var.deploy_karpenter ? 1 : 0
   policy = file("${path.module}/controller-trust-policy.json")
   name   = "KarpenterController"
 }
 
 resource "aws_iam_role_policy_attachment" "aws_load_balancer_controller_attach_karpenter" {
-  role       = aws_iam_role.karpenter_controller.name
-  policy_arn = aws_iam_policy.karpenter_controller.arn
+  count = var.deploy_karpenter ? 1 : 0
+  role       = aws_iam_role.karpenter_controller[0].name
+  policy_arn = aws_iam_policy.karpenter_controller[0].arn
 }
 
 resource "aws_iam_instance_profile" "karpenter" {
+  count = var.deploy_karpenter ? 1 : 0
   name = "KarpenterNodeInstanceProfile"
   role = aws_iam_role.eks-node-group.name
 }

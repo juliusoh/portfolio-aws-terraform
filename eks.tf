@@ -11,11 +11,12 @@ module "eks" {
 
 module "istio_eks" {
   source = "./tf_aws_eks"
-  deploy_argocd = false  # We don't need ArgoCD for the tutorial
-  instance_types = ["t3.large"]  # Single instance type is fine for testing
+  deploy_argocd = false
+  deploy_karpenter = false
+  instance_types = ["t3.large"]
   region         = var.region
-  stack_name     = "istio-tutorial"  # Different stack name to differentiate
+  stack_name     = "istio-tutorial"
   subnet_ids     = module.vpc.eks_subnets
   account_id     = data.aws_caller_identity.current.account_id
-  capacity_type  = "ON_DEMAND"  # Using on-demand for stability during tutorial
+  capacity_type  = "ON_DEMAND"
 }

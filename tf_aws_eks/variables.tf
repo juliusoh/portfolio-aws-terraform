@@ -21,3 +21,9 @@ variable "capacity_type" {
   type        = string
   default     = "ON_DEMAND"
 }
+
+variable "deploy_karpenter" {
+  description = "Control the deployment of karpenter"
+  type        = bool
+  default     = false
+}

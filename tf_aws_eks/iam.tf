@@ -91,13 +91,15 @@ data "aws_iam_policy_document" "aws_load_balancer_controller_assume_role_policy"
 }
 
 resource "aws_iam_role" "aws_load_balancer_controller" {
+  count = var.deploy_lb_controller ? 1 : 0
   assume_role_policy = data.aws_iam_policy_document.aws_load_balancer_controller_assume_role_policy.json
-  name               = "aws-load-balancer-controller"
+  name               = "aws-load-balancer-controller-${var.stack_name}"
 }
 
 resource "aws_iam_role_policy_attachment" "aws_load_balancer_controller_attach" {
-  role       = aws_iam_role.aws_load_balancer_controller.name
-  policy_arn = aws_iam_policy.lb-controller.arn
+  count = var.deploy_lb_controller ? 1 : 0
+  role       = aws_iam_role.aws_load_balancer_controller[0].name
+  policy_arn = aws_iam_policy.lb-controller[0].arn
 }
 
 output "aws_load_balancer_controller_role_arn" {
@@ -109,12 +111,13 @@ data "template_file" "iam_policy" {
 }
 
 resource "aws_iam_policy" "lb-controller" {
+  count = var.deploy_lb_controller ? 1 : 0
   name = "tf-${var.stack_name}-lb-controller-policy"
   policy = data.template_file.iam_policy.rendered
 }
 
 resource "aws_iam_role_policy_attachment" "lb-controller-policy" {
-  policy_arn = aws_iam_policy.lb-controller.arn
+  policy_arn = aws_iam_policy.lb-controller[0].arn
   role       = aws_iam_role.lb_controller_role.name
 }
 resource "aws_iam_role_policy_attachment" "eks-cluster-policy" {

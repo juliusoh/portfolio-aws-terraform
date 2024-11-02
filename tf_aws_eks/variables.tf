@@ -27,3 +27,9 @@ variable "deploy_karpenter" {
   type        = bool
   default     = false
 }
+
+variable "deploy_lb_controller" {
+  description = "Control the deployment of AWS Load Balancer Controller"
+  type        = bool
+  default     = false
+}

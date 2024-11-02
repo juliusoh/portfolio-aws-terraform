@@ -13,6 +13,7 @@ module "istio_eks" {
   source = "./tf_aws_eks"
   deploy_argocd = false
   deploy_karpenter = false
+  deploy_lb_controller = false
   instance_types = ["t3.large"]
   region         = var.region
   stack_name     = "istio-tutorial"

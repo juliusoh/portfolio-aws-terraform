@@ -10,34 +10,34 @@ provider "helm" {
     }
 }
 
-# resource "helm_release" "aws-load-balancer-controler" {
-#     name = "aws-load-balancer-controller"
+resource "helm_release" "aws-load-balancer-controler" {
+    name = "aws-load-balancer-controller"
 
-#     repository = "https://aws.github.io/eks-charts"
-#     chart = "aws-load-balancer-controller"
-#     namespace = "kube-system"
-#     version = "1.4.1"
+    repository = "https://aws.github.io/eks-charts"
+    chart = "aws-load-balancer-controller"
+    namespace = "kube-system"
+    version = "1.4.1"
 
-#     set {
-#         name = "clusterName"
-#         value = aws_eks_cluster.eks-cluster.id
-#     }
+    set {
+        name = "clusterName"
+        value = aws_eks_cluster.eks-cluster.id
+    }
 
-#     set {
-#        name = "image.tag"
-#        value = "v2.4.2"
-#     }
+    set {
+       name = "image.tag"
+       value = "v2.4.2"
+    }
 
-#     set {
-#         name = "serviceAccount.name"
-#         value = "aws-load-balancer-controller"
-#     }
+    set {
+        name = "serviceAccount.name"
+        value = "aws-load-balancer-controller"
+    }
 
-#     set  {
-#         name = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
-#         value = aws_iam_role.aws_load_balancer_controller.arn
-#     }
-# }
+    set  {
+        name = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
+        value = aws_iam_role.aws_load_balancer_controller.arn
+    }
+}
 
 resource "helm_release" "karpenter" {
   count = var.deploy_karpenter ? 1 : 0
